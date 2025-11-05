@@ -70,7 +70,7 @@ pipeline {
 
         //API Testing
         stage('Functional Testing'){
-            when {
+            when{
                 expression{ params.deploy_to = "dev" }
             }
             steps{
