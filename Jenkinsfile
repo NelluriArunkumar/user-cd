@@ -8,7 +8,7 @@ pipeline {
         REGION = 'us-east-1'
         ACC_ID = '850960379432'
         PROJECT = 'roboshop'
-        COMPONENT = 'catalogue'
+        COMPONENT = 'user'
     }
 
     options {
@@ -68,11 +68,48 @@ pipeline {
             }
         }
 
+        //API Testing
+        stage('Functional Testing'){
+            when {
+                expression{ params.deploy_to = "dev" }
+            }
+            steps{
+                script{
+                    echo "Run Functional Test cases"
+                }
+            }
+        }
 
+        //All Component Testing
+        stage('Integration Testing') {
+            when{
+                expression { params.deploy_to = "qa" }
+            }
+            steps{
+                script{
+                    echo "Run Integration Test Cases"
+                }
+            }
+        }
 
-        
-
-        
+        stage('Prod Deploy') {
+            when{
+                expression{ params.deploy_to = "prod" }
+            }
+            steps{
+                script{
+                    withAWS(credentials: 'aws_creds', region: 'us-east-1' ){
+                        sh """
+                            echo "get cr number"
+                            echo "check with in the deployment window"
+                            echo "is CR approved"
+                            echo "trigger PROD deploy"
+                        """
+                    }
+                }
+            }
+        }
+           
     }
     
     post {
