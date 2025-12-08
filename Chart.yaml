@@ -1,5 +1,5 @@
 apiVersion: v2
-name: catalogue
+name: user
 version: 1.0.0 ##Chart version
-description: catalogue helm charts
+description: user helm charts
 appVersion: v1 ##Applicationn version
